@@ -109,8 +109,8 @@ begin
  begin
    CaminhoMetaData := 'metadata.sql';
  end;
- CaminhoBancoNovo := ExtractFilePath(CaminhoBanco) + 'CA2.IB';
- CaminhoISQl := '"C:\Program Files\Firebird\Firebird_2_5\bin\isql.exe"';
+ CaminhoBancoNovo :=  'CA2_bkp_BD.IB';
+ CaminhoISQl := AddAspaDuplas(CaminhoIsql);
 
  ExtrairMetaDados;
  CriarDataBaseNovo;

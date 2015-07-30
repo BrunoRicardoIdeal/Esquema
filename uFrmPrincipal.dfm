@@ -41,16 +41,9 @@ object frmPrincipal: TfrmPrincipal
       Height = 13
       Caption = 'Senha'
     end
-    object Label3: TLabel
-      Left = 8
-      Top = 105
-      Width = 127
-      Height = 13
-      Caption = 'Caminho do banco Destino'
-    end
     object Label4: TLabel
       Left = 55
-      Top = 130
+      Top = 105
       Width = 80
       Height = 13
       Caption = 'Caminho do iSQL'
@@ -94,19 +87,12 @@ object frmPrincipal: TfrmPrincipal
         OnClick = btnExecutarClick
       end
     end
-    object edtCaminhoBancoDestino: TEdit
+    object edtCaminhoIsql: TEdit
       Left = 141
       Top = 102
       Width = 385
       Height = 21
       TabOrder = 4
-    end
-    object edtCaminhoIsql: TEdit
-      Left = 141
-      Top = 127
-      Width = 385
-      Height = 21
-      TabOrder = 5
     end
   end
 end

@@ -17,8 +17,6 @@ type
     lblSenha: TLabel;
     pnlBotoes: TPanel;
     btnExecutar: TButton;
-    edtCaminhoBancoDestino: TEdit;
-    Label3: TLabel;
     Label4: TLabel;
     edtCaminhoIsql: TEdit;
     procedure btnExecutarClick(Sender: TObject);
@@ -49,7 +47,7 @@ begin
   CopiaBanco.Usuario         := edtUsuario.Text;
   CopiaBanco.Senha           := edtSenha.Text;
   CopiaBanco.CaminhoMetaData := 'Metadata.sql';
-  CopiaBanco.CaminhoiSQL     :=
+  CopiaBanco.CaminhoiSQL     := edtCaminhoIsql.Text;
   CopiaBanco.Init;
   CopiaBanco.Free;
 end;
@@ -58,6 +56,7 @@ procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
  edtUsuario.Text := 'HOJETEC';
  edtSenha.Text := 'systemby';
+ edtCaminhoIsql := 'C:\Program Files\Firebird\Firebird_2_5\bin\isql.exe';
 end;
 
 end.
