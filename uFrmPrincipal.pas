@@ -17,6 +17,10 @@ type
     lblSenha: TLabel;
     pnlBotoes: TPanel;
     btnExecutar: TButton;
+    edtCaminhoBancoDestino: TEdit;
+    Label3: TLabel;
+    Label4: TLabel;
+    edtCaminhoIsql: TEdit;
     procedure btnExecutarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -45,6 +49,7 @@ begin
   CopiaBanco.Usuario         := edtUsuario.Text;
   CopiaBanco.Senha           := edtSenha.Text;
   CopiaBanco.CaminhoMetaData := 'Metadata.sql';
+  CopiaBanco.CaminhoiSQL     :=
   CopiaBanco.Init;
   CopiaBanco.Free;
 end;

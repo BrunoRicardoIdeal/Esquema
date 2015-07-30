@@ -21,42 +21,56 @@ object frmPrincipal: TfrmPrincipal
     Align = alClient
     TabOrder = 0
     object Label1: TLabel
-      Left = 32
+      Left = 8
       Top = 24
-      Width = 88
+      Width = 127
       Height = 13
-      Caption = 'Caminho do banco'
+      Caption = 'Caminho do banco Original'
     end
     object Label2: TLabel
-      Left = 84
+      Left = 99
       Top = 51
       Width = 36
       Height = 13
       Caption = 'Usu'#225'rio'
     end
     object lblSenha: TLabel
-      Left = 90
+      Left = 105
       Top = 78
       Width = 30
       Height = 13
       Caption = 'Senha'
     end
+    object Label3: TLabel
+      Left = 8
+      Top = 105
+      Width = 127
+      Height = 13
+      Caption = 'Caminho do banco Destino'
+    end
+    object Label4: TLabel
+      Left = 55
+      Top = 130
+      Width = 80
+      Height = 13
+      Caption = 'Caminho do iSQL'
+    end
     object edtCaminhoBanco: TEdit
-      Left = 126
+      Left = 141
       Top = 21
       Width = 385
       Height = 21
       TabOrder = 0
     end
     object edtUsuario: TEdit
-      Left = 126
+      Left = 141
       Top = 48
       Width = 155
       Height = 21
       TabOrder = 1
     end
     object edtSenha: TEdit
-      Left = 126
+      Left = 141
       Top = 75
       Width = 155
       Height = 21
@@ -78,8 +92,21 @@ object frmPrincipal: TfrmPrincipal
         Caption = 'Executar'
         TabOrder = 0
         OnClick = btnExecutarClick
-        ExplicitLeft = 571
       end
+    end
+    object edtCaminhoBancoDestino: TEdit
+      Left = 141
+      Top = 102
+      Width = 385
+      Height = 21
+      TabOrder = 4
+    end
+    object edtCaminhoIsql: TEdit
+      Left = 141
+      Top = 127
+      Width = 385
+      Height = 21
+      TabOrder = 5
     end
   end
 end
