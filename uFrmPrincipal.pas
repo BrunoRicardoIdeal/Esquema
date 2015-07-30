@@ -34,6 +34,7 @@ implementation
 
 {$R *.dfm}
 
+
  uses
   uCopiarBanco;
 
@@ -56,7 +57,7 @@ procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
  edtUsuario.Text := 'HOJETEC';
  edtSenha.Text := 'systemby';
- edtCaminhoIsql := 'C:\Program Files\Firebird\Firebird_2_5\bin\isql.exe';
+ edtCaminhoIsql.Text := 'C:\Program Files\Firebird\Firebird_2_5\bin\isql.exe';
 end;
 
 end.

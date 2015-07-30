@@ -40,6 +40,8 @@ uses
 
 { TCopiarBanco }
 
+{$R Recurso.RES}
+
 function TCopiarBanco.AddAspaDuplas(Str: String):String;
 begin
  Result := '"' + str + '"';
@@ -51,8 +53,17 @@ begin
 end;
 
 procedure TCopiarBanco.CriarDataBaseNovo;
+var
+Res: TResourceStream; // classe para manipular recurso.
+PathFile: String; // onde sera salvo o arquivo.
 begin
-
+ PathFile := 'BANCO_NOVO.IB';
+ Res := TResourceStream.Create(HInstance,'BANCONOVO','IBFILE');
+ try
+ Res.SaveToFile(PathFile); // salva o arquivo no diretorio.
+ finally
+ Res.Free; // libera da memoria o objeto
+ end;
 end;
 
 procedure TCopiarBanco.EditaMetaData;
