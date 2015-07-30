@@ -48,6 +48,13 @@ object frmPrincipal: TfrmPrincipal
       Height = 13
       Caption = 'Caminho do iSQL'
     end
+    object lbl1: TLabel
+      Left = 55
+      Top = 132
+      Width = 78
+      Height = 13
+      Caption = 'Tabelas a serem'
+    end
     object edtCaminhoBanco: TEdit
       Left = 141
       Top = 21
@@ -93,6 +100,28 @@ object frmPrincipal: TfrmPrincipal
       Width = 385
       Height = 21
       TabOrder = 4
+    end
+    object mmoTables: TMemo
+      Left = 141
+      Top = 129
+      Width = 385
+      Height = 186
+      Lines.Strings = (
+        'pessoas_ent_sai'
+        'pessoas_ent_sai_temp'
+        'movimento'
+        'movimentacao'
+        'movimentacao_temp')
+      TabOrder = 5
+    end
+    object btnMudaEstado: TButton
+      Left = 60
+      Top = 151
+      Width = 75
+      Height = 25
+      Caption = 'Exclu'#237'das'
+      TabOrder = 6
+      OnClick = btnMudaEstadoClick
     end
   end
 end

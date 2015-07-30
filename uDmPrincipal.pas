@@ -15,6 +15,8 @@ type
     CONEXAO: TFDConnection;
     qryAux: TFDQuery;
     FdScripts: TFDScript;
+    CONEXAO_NOVO: TFDConnection;
+    qryTabelas: TFDQuery;
   private
     { Private declarations }
   public

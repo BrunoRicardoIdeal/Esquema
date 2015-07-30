@@ -19,8 +19,12 @@ type
     btnExecutar: TButton;
     Label4: TLabel;
     edtCaminhoIsql: TEdit;
+    mmoTables: TMemo;
+    lbl1: TLabel;
+    btnMudaEstado: TButton;
     procedure btnExecutarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnMudaEstadoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -52,11 +56,23 @@ begin
   CopiaBanco.Free;
 end;
 
+procedure TfrmPrincipal.btnMudaEstadoClick(Sender: TObject);
+begin
+  if btnMudaEstado.Caption = 'Incluídas' then
+  begin
+    btnMudaEstado.Caption := 'Excluídas';
+  end
+  else
+  begin
+    btnMudaEstado.Caption := 'Incluídas';
+  end;
+end;
+
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
  edtUsuario.Text := 'HOJETEC';
  edtSenha.Text := 'systemby';
- edtCaminhoIsql := 'C:\Program Files\Firebird\Firebird_2_5\bin\isql.exe';
+ edtCaminhoIsql.text := 'C:\Program Files\Firebird\Firebird_2_5\bin\isql.exe';
 end;
 
 end.

@@ -4,7 +4,8 @@ uses
   Vcl.Forms,
   uFrmPrincipal in 'uFrmPrincipal.pas' {frmPrincipal},
   uCopiarBanco in 'uCopiarBanco.pas',
-  uDmPrincipal in 'uDmPrincipal.pas' {dmPrincipal: TDataModule};
+  uDmPrincipal in 'uDmPrincipal.pas' {dmPrincipal: TDataModule},
+  uCopiarDados in 'uCopiarDados.pas';
 
 {$R *.res}
 
