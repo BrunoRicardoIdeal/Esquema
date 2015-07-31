@@ -8,15 +8,19 @@ uses
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, Data.DB,
   FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Phys.Oracle, IBDatabase,
-  FireDAC.Comp.ScriptCommands, FireDAC.Comp.Script, FireDAC.Comp.DataMove;
+  FireDAC.Comp.ScriptCommands, FireDAC.Comp.Script, FireDAC.Comp.DataMove,
+  FireDAC.VCLUI.Wait, FireDAC.Comp.UI, FireDAC.Phys.IBBase, FireDAC.Phys.FB;
 
 type
   TdmPrincipal = class(TDataModule)
     CONEXAO: TFDConnection;
-    qryAux: TFDQuery;
+    qryTabelaAntiga: TFDQuery;
     FdScripts: TFDScript;
     CONEXAO_NOVO: TFDConnection;
     qryTabelas: TFDQuery;
+    qryTabelaNova: TFDQuery;
+    fdphysfbdrvrlnk1: TFDPhysFBDriverLink;
+    fdgxwtcrsr1: TFDGUIxWaitCursor;
   private
     { Private declarations }
   public

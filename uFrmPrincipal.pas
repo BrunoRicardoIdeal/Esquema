@@ -40,21 +40,45 @@ implementation
 
 
  uses
-  uCopiarBanco;
+  uCopiarBanco, uCopiarDados;
 
 
 procedure TfrmPrincipal.btnExecutarClick(Sender: TObject);
 var
  CopiaBanco : TCopiarBanco;
+ CopiaDados : TCopiarDados;
+ estado     : Integer;
 begin
   CopiaBanco                 := TCopiarBanco.Create;
   CopiaBanco.CaminhoBanco    := edtCaminhoBanco.Text;
   CopiaBanco.Usuario         := edtUsuario.Text;
   CopiaBanco.Senha           := edtSenha.Text;
-  CopiaBanco.CaminhoMetaData := 'Metadata.sql';
+  CopiaBanco.CaminhoMetaData := ExtractFilePath(Application.ExeName)+'Metadata.sql';
   CopiaBanco.CaminhoiSQL     := edtCaminhoIsql.Text;
+  CopiaBanco.ConectarBancoAntigo;
   CopiaBanco.Init;
   CopiaBanco.Free;
+
+   if mmoTables.Lines.Count = 0 then
+  begin
+    estado := 0;
+  end
+  else
+  begin
+    if btnMudaEstado.Caption = 'Incluídas' then
+    begin
+      estado := 1;
+    end
+    else
+    if btnMudaEstado.Caption = 'Excluídas' then
+    begin
+      estado := 2;
+    end;
+  end;
+
+  CopiaDados                 := TCopiarDados.Create(estado, mmoTables.Lines);
+  CopiaDados.CarregarTabelas;
+  CopiaDados.Transfere;
 end;
 
 procedure TfrmPrincipal.btnMudaEstadoClick(Sender: TObject);

@@ -18,6 +18,7 @@ type TCopiarDados = Class(TObject)
   var
    Tabelas_Parametro : TStrings;
    procedure CarregarTabelas;
+   procedure Transfere;
    constructor Create(estado : Integer; lista : TStrings);
  private
    var
@@ -56,6 +57,7 @@ begin
       while not dmPrincipal.qryTabelas.eof do
       begin
         Tabelas.Add(dmPrincipal.qryTabelas.FieldByName('tabela').AsString);
+        dmPrincipal.qryTabelas.Next;
       end;
     end;
 
@@ -63,7 +65,7 @@ begin
     begin
       for exclusao in Tabelas_Parametro do
         begin
-          Tabelas.Delete(Tabelas.IndexOf(exclusao));   ok
+          Tabelas.Delete(Tabelas.IndexOf(exclusao));
         end;
     end;
   end;
@@ -74,6 +76,45 @@ constructor TCopiarDados.Create(estado : Integer; lista : TStrings);
 begin
   Self.estado := estado;
   Self.Tabelas_Parametro := lista;
+end;
+
+procedure TCopiarDados.Transfere;
+var
+  tabela : string;
+  i : Integer;
+begin
+
+  for tabela in Tabelas do
+  begin
+    dmPrincipal.qryTabelaNova.Close;
+    dmPrincipal.qryTabelaNova.SQL.Clear;
+    dmPrincipal.qryTabelaNova.SQL.Add('select * from '+tabela);
+    dmPrincipal.qryTabelaNova.Open();
+
+    dmPrincipal.qryTabelaAntiga.Close;
+    dmPrincipal.qryTabelaAntiga.SQL.Clear;
+    dmPrincipal.qryTabelaAntiga.SQL.Add('select * from '+tabela);
+    dmPrincipal.qryTabelaAntiga.Open();
+
+
+    if not dmPrincipal.qryTabelaAntiga.IsEmpty then
+    begin
+      dmPrincipal.qryTabelaAntiga.First;
+      while not dmPrincipal.qryTabelaAntiga.Eof do
+      begin
+        dmPrincipal.qryTabelaNova.Append;
+        for i := 0 to dmPrincipal.qryTabelaAntiga.Fields.Count-1 do
+        begin
+          dmPrincipal.qryTabelaNova.Fields[i].Value := dmPrincipal.qryTabelaAntiga.Fields[i].Value;
+        end;
+        dmPrincipal.qryTabelaAntiga.Next;
+      end;
+      dmPrincipal.qryTabelaNova.Post;
+    end;
+
+  end;
+
+
 end;
 
 end.

@@ -20,6 +20,8 @@ type TCopiarBanco = Class(TObject)
    procedure ExtrairMetaDados;
    procedure CriarDataBaseNovo;
    procedure Init;
+   procedure ConectarBancoNovo;
+   procedure ConectarBancoAntigo;
    constructor Create;
  private
    var
@@ -36,7 +38,8 @@ End;
 implementation
 
 uses
-  System.SysUtils, Winapi.Windows, ShellApi, uDmPrincipal, FireDAC.Comp.Client;
+  System.SysUtils, Winapi.Windows, ShellApi, uDmPrincipal, FireDAC.Comp.Client, uFrmPrincipal,
+  Vcl.Forms, Vcl.Dialogs;
 
 { TCopiarBanco }
 
@@ -45,6 +48,29 @@ uses
 function TCopiarBanco.AddAspaDuplas(Str: String):String;
 begin
  Result := '"' + str + '"';
+end;
+
+procedure TCopiarBanco.ConectarBancoNovo;
+begin
+  dmPrincipal.CONEXAO_NOVO.Params.Clear;
+  dmPrincipal.CONEXAO_NOVO.Params.Add('Database='+ExtractFilePath(application.exeName)+CaminhoBancoNovo);
+  dmPrincipal.CONEXAO_NOVO.Params.Add('user_name='+Usuario);
+  dmPrincipal.CONEXAO_NOVO.Params.Add('password='+Senha);
+  dmPrincipal.CONEXAO_NOVO.Params.Add('DriverID=FB');
+  dmPrincipal.CONEXAO_NOVO.Open();
+  dmPrincipal.FdScripts.ExecuteFile(CaminhoMetaData);
+
+end;
+
+procedure TCopiarBanco.ConectarBancoAntigo;
+begin
+  dmPrincipal.CONEXAO.Params.Clear;
+  dmPrincipal.CONEXAO.Params.Add('Database='+frmPrincipal.edtCaminhoBanco.Text);
+  dmPrincipal.CONEXAO.Params.Add('user_name='+Usuario);
+  dmPrincipal.CONEXAO.Params.Add('password='+Senha);
+  dmPrincipal.CONEXAO.Params.Add('DriverID=FB');
+  dmPrincipal.CONEXAO.Open();
+
 end;
 
 constructor TCopiarBanco.Create;
@@ -57,7 +83,7 @@ var
 Res: TResourceStream; // classe para manipular recurso.
 PathFile: String; // onde sera salvo o arquivo.
 begin
- PathFile := 'BANCO_NOVO.IB';
+ PathFile := CaminhoBancoNovo;
  Res := TResourceStream.Create(HInstance,'BANCONOVO','IBFILE');
  try
  Res.SaveToFile(PathFile); // salva o arquivo no diretorio.
@@ -86,7 +112,7 @@ begin
   end;
 
  end;
- ArquivoSQLMeta.SaveToFile(CaminhoMetaData);
+ ArquivoSQLMeta.SaveToFile(CaminhoMetaDAta);
 end;
 
 procedure TCopiarBanco.ExtrairMetaDados;
@@ -95,20 +121,28 @@ var
  Parametros : String;
  Handle : tHandle;
 begin
- if fileExists(CaminhoBanco) then
- begin
-  Parametros :=  ' -extract -o ' + AddAspaDuplas(CaminhoMetaDAta) + '  ' + AddAspaDuplas(CaminhoBanco)
-                              + ' -u '+ Usuario  +  ' -p ' + senha;
-  if FileExists(CaminhoMetaData) then
+ if FileExists(CaminhoMetaData) then
   begin
      DeleteFile(PChar(CaminhoMetaData));
   end;
 
+ if fileExists(CaminhoBanco) then
+ begin
+  Parametros :=  ' -extract -o ' + AddAspaDuplas(CaminhoMetaDAta) + '  ' + AddAspaDuplas(CaminhoBanco)
+                              + ' -u '+ Usuario  +  ' -p ' + senha;
+
+
   ShellExecute(Handle, 'open', pChar(CaminhoISQl),Pchar(Parametros),'',SW_HIDE);
  end;
- if FileExists(CaminhoMetaData) then
+ Sleep(5);
+ while FileOpen(CaminhoMetaData,fmOpenReadWrite) > 0 do
  begin
-  ArquivoSQLMeta.LoadFromFile(CaminhoMetaData);
+   //esperar o arquivo parar de ser usado pelo iSQL
+ end;
+
+ if FileExists(CaminhoMetaDAta) then
+ begin
+  ArquivoSQLMeta.LoadFromFile(CaminhoMetaDAta);
   EditaMetaData;
  end;
 
@@ -120,11 +154,12 @@ begin
  begin
    CaminhoMetaData := 'metadata.sql';
  end;
- CaminhoBancoNovo :=  'CA2_bkp_BD.IB';
+ CaminhoBancoNovo :=  'BANCO_NOVO.IB';
  CaminhoISQl := AddAspaDuplas(CaminhoIsql);
 
  ExtrairMetaDados;
  CriarDataBaseNovo;
+ ConectarBancoNovo;
 
 end;
 
