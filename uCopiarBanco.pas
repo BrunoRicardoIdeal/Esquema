@@ -39,7 +39,7 @@ implementation
 
 uses
   System.SysUtils, Winapi.Windows, ShellApi, uDmPrincipal, FireDAC.Comp.Client, uFrmPrincipal,
-  Vcl.Forms, Vcl.Dialogs;
+  Vcl.Forms, Vcl.Dialogs,uFuncoes;
 
 { TCopiarBanco }
 
@@ -58,7 +58,13 @@ begin
   dmPrincipal.CONEXAO_NOVO.Params.Add('password='+Senha);
   dmPrincipal.CONEXAO_NOVO.Params.Add('DriverID=FB');
   dmPrincipal.CONEXAO_NOVO.Open();
-  dmPrincipal.FdScripts.ExecuteFile(CaminhoMetaData);
+  dmPrincipal.CONEXAO_NOVO.StartTransaction;
+  dmPrincipal.FdScripts.SQLScripts.Add;
+  dmPrincipal.FdScripts.SQLScripts.Items[0].SQL := ArquivoSQLMeta;
+  dmPrincipal.FdScripts.ExecuteAll;
+  //  dmPrincipal.FdScripts.ExecuteScript(ArquivoSQLMeta);
+//  dmPrincipal.FdScripts.ExecuteFile(CaminhoMetaData);
+  dmPrincipal.CONEXAO_NOVO.Commit;
 
 end;
 
@@ -117,9 +123,10 @@ end;
 
 procedure TCopiarBanco.ExtrairMetaDados;
 var
-
+ funcoes : TFuncoes;
  Parametros : String;
  Handle : tHandle;
+ comando : PAnsiChar;
 begin
  if FileExists(CaminhoMetaData) then
   begin
@@ -130,16 +137,15 @@ begin
  begin
   Parametros :=  ' -extract -o ' + AddAspaDuplas(CaminhoMetaDAta) + '  ' + AddAspaDuplas(CaminhoBanco)
                               + ' -u '+ Usuario  +  ' -p ' + senha;
+  funcoes := TFuncoes.Create;
 
+  try
+   funcoes.ShellExecuteAndWait('open', CaminhoIsql , Parametros, '', SW_SHOW, True);
+  finally
+    funcoes.Free;
+  end;
 
-  ShellExecute(Handle, 'open', pChar(CaminhoISQl),Pchar(Parametros),'',SW_HIDE);
  end;
- Sleep(5);
- while FileOpen(CaminhoMetaData,fmOpenReadWrite) > 0 do
- begin
-   //esperar o arquivo parar de ser usado pelo iSQL
- end;
-
  if FileExists(CaminhoMetaDAta) then
  begin
   ArquivoSQLMeta.LoadFromFile(CaminhoMetaDAta);
@@ -156,7 +162,6 @@ begin
  end;
  CaminhoBancoNovo :=  'BANCO_NOVO.IB';
  CaminhoISQl := AddAspaDuplas(CaminhoIsql);
-
  ExtrairMetaDados;
  CriarDataBaseNovo;
  ConectarBancoNovo;

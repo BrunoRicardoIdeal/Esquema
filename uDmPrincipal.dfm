@@ -16,10 +16,7 @@ object dmPrincipal: TdmPrincipal
     Top = 120
   end
   object FdScripts: TFDScript
-    SQLScripts = <
-      item
-        Name = 'scCreateDatabase'
-      end>
+    SQLScripts = <>
     Connection = CONEXAO_NOVO
     Params = <>
     Macros = <>

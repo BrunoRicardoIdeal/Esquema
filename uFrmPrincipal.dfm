@@ -1,7 +1,7 @@
 object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
-  ClientHeight = 381
+  ClientHeight = 420
   ClientWidth = 648
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,9 +17,10 @@ object frmPrincipal: TfrmPrincipal
     Left = 0
     Top = 0
     Width = 648
-    Height = 381
+    Height = 420
     Align = alClient
     TabOrder = 0
+    ExplicitHeight = 381
     object Label1: TLabel
       Left = 8
       Top = 24
@@ -55,6 +56,19 @@ object frmPrincipal: TfrmPrincipal
       Height = 13
       Caption = 'Tabelas a serem'
     end
+    object lblProcesso: TLabel
+      Left = 55
+      Top = 344
+      Width = 92
+      Height = 19
+      Caption = 'lblProcesso'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
     object edtCaminhoBanco: TEdit
       Left = 141
       Top = 21
@@ -78,11 +92,12 @@ object frmPrincipal: TfrmPrincipal
     end
     object pnlBotoes: TPanel
       Left = 1
-      Top = 344
+      Top = 383
       Width = 646
       Height = 36
       Align = alBottom
       TabOrder = 3
+      ExplicitTop = 344
       object btnExecutar: TButton
         Left = 570
         Top = 1

@@ -22,6 +22,7 @@ type
     mmoTables: TMemo;
     lbl1: TLabel;
     btnMudaEstado: TButton;
+    lblProcesso: TLabel;
     procedure btnExecutarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnMudaEstadoClick(Sender: TObject);
@@ -49,15 +50,38 @@ var
  CopiaDados : TCopiarDados;
  estado     : Integer;
 begin
+ try
   CopiaBanco                 := TCopiarBanco.Create;
+  if FileExists(edtCaminhoBanco.Text) then
+  begin
   CopiaBanco.CaminhoBanco    := edtCaminhoBanco.Text;
+  end
+  else
+  begin
+   MessageDlg('É inválido o caminho do banco de origem!', mtWarning, [mbOK], 0);
+   Exit;
+  end;
   CopiaBanco.Usuario         := edtUsuario.Text;
   CopiaBanco.Senha           := edtSenha.Text;
   CopiaBanco.CaminhoMetaData := ExtractFilePath(Application.ExeName)+'Metadata.sql';
-  CopiaBanco.CaminhoiSQL     := edtCaminhoIsql.Text;
+  if FileExists(edtCaminhoIsql.Text) then
+  begin
+   CopiaBanco.CaminhoiSQL     := edtCaminhoIsql.Text;
+  end
+  else
+  begin
+    MessageDlg('É inválido o caminho do executável isql! ', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+  lblProcesso.Visible := True;
+  lblProcesso.Caption := 'Conectando com o banco de origem...';
   CopiaBanco.ConectarBancoAntigo;
+  lblProcesso.Caption := 'Extraindo metadados e criando o banco novo...';
   CopiaBanco.Init;
+ finally
   CopiaBanco.Free;
+ end;
+
 
    if mmoTables.Lines.Count = 0 then
   begin
@@ -75,10 +99,19 @@ begin
       estado := 2;
     end;
   end;
+  lblProcesso := 'Carregando as tabelas a serem copiadas...';
+  try
+   CopiaDados                 := TCopiarDados.Create(estado, mmoTables.Lines);
+   CopiaDados.CarregarTabelas;
+   lblProcesso.Caption := 'Transferindo os dados...';
+   CopiaDados.Transfere;
+  finally
+    CopiaDados.Free;
+  end;
 
-  CopiaDados                 := TCopiarDados.Create(estado, mmoTables.Lines);
-  CopiaDados.CarregarTabelas;
-  CopiaDados.Transfere;
+  lblProcesso.Caption := 'Processo concluído!';
+
+  Self.Close;
 end;
 
 procedure TfrmPrincipal.btnMudaEstadoClick(Sender: TObject);
@@ -98,6 +131,7 @@ begin
  edtUsuario.Text := 'HOJETEC';
  edtSenha.Text := 'systemby';
  edtCaminhoIsql.text := 'C:\Program Files\Firebird\Firebird_2_5\bin\isql.exe';
+ lblProcesso.Visible := False;
 end;
 
 end.
