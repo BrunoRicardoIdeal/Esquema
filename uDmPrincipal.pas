@@ -15,12 +15,13 @@ type
   TdmPrincipal = class(TDataModule)
     CONEXAO: TFDConnection;
     qryTabelaAntiga: TFDQuery;
-    FdScripts: TFDScript;
     CONEXAO_NOVO: TFDConnection;
     qryTabelas: TFDQuery;
     qryTabelaNova: TFDQuery;
     fdphysfbdrvrlnk1: TFDPhysFBDriverLink;
     fdgxwtcrsr1: TFDGUIxWaitCursor;
+    qryTeste: TFDQuery;
+    FDScripts: TFDScript;
   private
     { Private declarations }
   public

@@ -99,7 +99,7 @@ begin
       estado := 2;
     end;
   end;
-  lblProcesso := 'Carregando as tabelas a serem copiadas...';
+  lblProcesso.Caption := 'Carregando as tabelas a serem copiadas...';
   try
    CopiaDados                 := TCopiarDados.Create(estado, mmoTables.Lines);
    CopiaDados.CarregarTabelas;

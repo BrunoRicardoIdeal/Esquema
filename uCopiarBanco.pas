@@ -17,6 +17,7 @@ type TCopiarBanco = Class(TObject)
    Senha        : String;
    CaminhoMetaData : String;
    CaminhoiSQL :String;
+   CaminhoBancoNovo : String;
    procedure ExtrairMetaDados;
    procedure CriarDataBaseNovo;
    procedure Init;
@@ -26,7 +27,7 @@ type TCopiarBanco = Class(TObject)
  private
    var
     ArquivoSQLMeta : TStringList;
-    CaminhoBancoNovo : String;
+
   function AddAspaDuplas(Str : String):String;
   procedure EditaMetaData;
 
@@ -51,6 +52,10 @@ begin
 end;
 
 procedure TCopiarBanco.ConectarBancoNovo;
+var
+ i,j : Integer;
+ SubScript : TStringList;
+ posIni,posFim : Integer;
 begin
   dmPrincipal.CONEXAO_NOVO.Params.Clear;
   dmPrincipal.CONEXAO_NOVO.Params.Add('Database='+ExtractFilePath(application.exeName)+CaminhoBancoNovo);
@@ -58,13 +63,36 @@ begin
   dmPrincipal.CONEXAO_NOVO.Params.Add('password='+Senha);
   dmPrincipal.CONEXAO_NOVO.Params.Add('DriverID=FB');
   dmPrincipal.CONEXAO_NOVO.Open();
-  dmPrincipal.CONEXAO_NOVO.StartTransaction;
-  dmPrincipal.FdScripts.SQLScripts.Add;
-  dmPrincipal.FdScripts.SQLScripts.Items[0].SQL := ArquivoSQLMeta;
-  dmPrincipal.FdScripts.ExecuteAll;
-  //  dmPrincipal.FdScripts.ExecuteScript(ArquivoSQLMeta);
-//  dmPrincipal.FdScripts.ExecuteFile(CaminhoMetaData);
-  dmPrincipal.CONEXAO_NOVO.Commit;
+
+ SubScript := TStringList.Create;
+ posIni := 0;
+ posFim := 0;
+ try
+  for i := 0 to ArquivoSQLMeta.Count - 1 do
+  begin
+   if ArquivoSQLMeta[i].Contains(';') then
+   begin
+     posFim := i;
+
+     for j := posIni to posFim do
+     begin
+       SubScript.Add(ArquivoSQLMeta[j]);
+     end;
+
+     posIni := posFim + 1;
+
+     dmPrincipal.qryTeste.SQL := SubScript;
+     dmPrincipal.CONEXAO_NOVO.StartTransaction;
+     dmPrincipal.qryTeste.ExecSQL;
+     dmPrincipal.CONEXAO_NOVO.Commit;
+
+     SubScript.Clear;
+   end;
+
+  end;
+ finally
+   SubScript.Free;
+ end;
 
 end;
 
@@ -103,10 +131,15 @@ var
  i,j : integer;
  novoCount : Integer;
  total : integer;
+ SubScript : tstringList;
+ posIni, posFim : Integer;
+ numScript : integer;
 begin
+ ArquivoSQLMeta.Delete(ArquivoSQLMeta.IndexOf('SET SQL DIALECT 3; '));
  novoCount := ArquivoSQLMeta.Count;
  for i := 0 to novoCount - 1 do
  begin
+
   if UpperCase(ArquivoSQLMeta[i]).Contains('INDEX') then
   begin
    total := i;
@@ -118,6 +151,7 @@ begin
   end;
 
  end;
+
  ArquivoSQLMeta.SaveToFile(CaminhoMetaDAta);
 end;
 

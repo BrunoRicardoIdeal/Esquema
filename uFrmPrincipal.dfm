@@ -20,7 +20,6 @@ object frmPrincipal: TfrmPrincipal
     Height = 420
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 381
     object Label1: TLabel
       Left = 8
       Top = 24
@@ -97,7 +96,6 @@ object frmPrincipal: TfrmPrincipal
       Height = 36
       Align = alBottom
       TabOrder = 3
-      ExplicitTop = 344
       object btnExecutar: TButton
         Left = 570
         Top = 1

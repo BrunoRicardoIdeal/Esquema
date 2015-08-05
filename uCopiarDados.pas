@@ -33,7 +33,8 @@ End;
 implementation
 
 uses
-  System.SysUtils, Winapi.Windows, ShellApi, uDmPrincipal, FireDAC.Comp.Client;
+  System.SysUtils, Winapi.Windows, ShellApi, uDmPrincipal, FireDAC.Comp.Client,
+  Vcl.Forms, uFrmPrincipal, uCopiarBanco;
 
 { TCopiarDados }
 
@@ -65,7 +66,10 @@ begin
     begin
       for exclusao in Tabelas_Parametro do
         begin
-          Tabelas.Delete(Tabelas.IndexOf(exclusao));
+          if Tabelas.IndexOf(exclusao) > 0  then
+          begin
+           Tabelas.Delete(Tabelas.IndexOf(exclusao));
+          end;
         end;
     end;
   end;
@@ -83,12 +87,13 @@ var
   tabela : string;
   i : Integer;
 begin
-
+  dmPrincipal.CONEXAO_NOVO.RefreshMetadataCache;
   for tabela in Tabelas do
   begin
+
     dmPrincipal.qryTabelaNova.Close;
     dmPrincipal.qryTabelaNova.SQL.Clear;
-    dmPrincipal.qryTabelaNova.SQL.Add('select * from '+tabela);
+    dmPrincipal.qryTabelaNova.SQL.Add('select * from '+ tabela);
     dmPrincipal.qryTabelaNova.Open();
 
     dmPrincipal.qryTabelaAntiga.Close;
