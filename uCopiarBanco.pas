@@ -67,9 +67,12 @@ begin
  SubScript := TStringList.Create;
  posIni := 0;
  posFim := 0;
+ frmPrincipal.pbProcessamento.Min := 0;
+ frmPrincipal.pbProcessamento.Max := ArquivoSQLMeta.Count;
  try
   for i := 0 to ArquivoSQLMeta.Count - 1 do
   begin
+   frmPrincipal.pbProcessamento.Position := i;
    if ArquivoSQLMeta[i].Contains(';') then
    begin
      posFim := i;
@@ -81,9 +84,9 @@ begin
 
      posIni := posFim + 1;
 
-     dmPrincipal.qryTeste.SQL := SubScript;
+     dmPrincipal.qryExecutaSQL.SQL := SubScript;
      dmPrincipal.CONEXAO_NOVO.StartTransaction;
-     dmPrincipal.qryTeste.ExecSQL;
+     dmPrincipal.qryExecutaSQL.ExecSQL;
      dmPrincipal.CONEXAO_NOVO.Commit;
 
      SubScript.Clear;

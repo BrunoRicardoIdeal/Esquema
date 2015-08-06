@@ -1,8 +1,8 @@
 object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
-  ClientHeight = 420
-  ClientWidth = 648
+  ClientHeight = 590
+  ClientWidth = 532
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,10 +16,12 @@ object frmPrincipal: TfrmPrincipal
   object pnlFrundo: TPanel
     Left = 0
     Top = 0
-    Width = 648
-    Height = 420
+    Width = 532
+    Height = 590
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 648
+    ExplicitHeight = 420
     object Label1: TLabel
       Left = 8
       Top = 24
@@ -56,11 +58,11 @@ object frmPrincipal: TfrmPrincipal
       Caption = 'Tabelas a serem'
     end
     object lblProcesso: TLabel
-      Left = 55
-      Top = 344
-      Width = 92
+      Left = 8
+      Top = 328
+      Width = 135
       Height = 19
-      Caption = 'lblProcesso'
+      Caption = 'Processamento :'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -91,13 +93,15 @@ object frmPrincipal: TfrmPrincipal
     end
     object pnlBotoes: TPanel
       Left = 1
-      Top = 383
-      Width = 646
+      Top = 553
+      Width = 530
       Height = 36
       Align = alBottom
       TabOrder = 3
+      ExplicitTop = 383
+      ExplicitWidth = 646
       object btnExecutar: TButton
-        Left = 570
+        Left = 454
         Top = 1
         Width = 75
         Height = 34
@@ -105,6 +109,7 @@ object frmPrincipal: TfrmPrincipal
         Caption = 'Executar'
         TabOrder = 0
         OnClick = btnExecutarClick
+        ExplicitLeft = 570
       end
     end
     object edtCaminhoIsql: TEdit
@@ -135,6 +140,22 @@ object frmPrincipal: TfrmPrincipal
       Caption = 'Exclu'#237'das'
       TabOrder = 6
       OnClick = btnMudaEstadoClick
+    end
+    object memoExecucao: TMemo
+      Left = 8
+      Top = 384
+      Width = 518
+      Height = 163
+      Lines.Strings = (
+        '')
+      TabOrder = 7
+    end
+    object pbProcessamento: TProgressBar
+      Left = 8
+      Top = 353
+      Width = 518
+      Height = 17
+      TabOrder = 8
     end
   end
 end

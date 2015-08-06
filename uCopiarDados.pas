@@ -88,9 +88,13 @@ var
   i : Integer;
 begin
   dmPrincipal.CONEXAO_NOVO.RefreshMetadataCache;
+  frmPrincipal.pbProcessamento.Min := 0;
+  frmPrincipal.pbProcessamento.Max := tabelas.Count;
   for tabela in Tabelas do
   begin
-
+    frmPrincipal.pbProcessamento.StepIt;
+    frmPrincipal.Repaint;
+    Application.ProcessMessages;
     dmPrincipal.qryTabelaNova.Close;
     dmPrincipal.qryTabelaNova.SQL.Clear;
     dmPrincipal.qryTabelaNova.SQL.Add('select * from '+ tabela);
@@ -104,17 +108,28 @@ begin
 
     if not dmPrincipal.qryTabelaAntiga.IsEmpty then
     begin
-      dmPrincipal.qryTabelaAntiga.First;
-      while not dmPrincipal.qryTabelaAntiga.Eof do
-      begin
-        dmPrincipal.qryTabelaNova.Append;
-        for i := 0 to dmPrincipal.qryTabelaAntiga.Fields.Count-1 do
-        begin
-          dmPrincipal.qryTabelaNova.Fields[i].Value := dmPrincipal.qryTabelaAntiga.Fields[i].Value;
-        end;
-        dmPrincipal.qryTabelaAntiga.Next;
-      end;
-      dmPrincipal.qryTabelaNova.Post;
+     frmPrincipal.memoExecucao.Lines.Clear;
+     frmPrincipal.memoExecucao.Lines.Add('ADICIONANDO NA TABELA  ' + tabela);
+     dmPrincipal.CONEXAO_NOVO.StartTransaction;
+     dmPrincipal.fdDataMove.Execute;
+     dmPrincipal.CONEXAO_NOVO.Commit;
+//      dmPrincipal.qryTabelaAntiga.First;
+//      while not dmPrincipal.qryTabelaAntiga.Eof do
+//      begin
+
+
+//        frmPrincipal.pbProcessamento.Position := dmPrincipal.qryTabelaAntiga.RecNo;
+//        dmPrincipal.qryTabelaNova.Append;
+
+//        for i := 0 to dmPrincipal.qryTabelaAntiga.Fields.Count-1 do
+//        begin
+//          dmPrincipal.qryTabelaNova.Fields[i].Value := dmPrincipal.qryTabelaAntiga.Fields[i].Value;
+//        end;
+//        dmPrincipal.qryTabelaAntiga.Next;
+
+
+//      end;
+
     end;
 
   end;

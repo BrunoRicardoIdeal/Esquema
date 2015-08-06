@@ -9,7 +9,7 @@ uses
   FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Phys.Oracle, IBDatabase,
   FireDAC.Comp.ScriptCommands, FireDAC.Comp.Script, FireDAC.Comp.DataMove,
-  FireDAC.VCLUI.Wait, FireDAC.Comp.UI, FireDAC.Phys.IBBase, FireDAC.Phys.FB;
+  FireDAC.VCLUI.Wait, FireDAC.Comp.UI, FireDAC.Phys.IBBase, FireDAC.Phys.FB,ufrmPrincipal;
 
 type
   TdmPrincipal = class(TDataModule)
@@ -20,8 +20,10 @@ type
     qryTabelaNova: TFDQuery;
     fdphysfbdrvrlnk1: TFDPhysFBDriverLink;
     fdgxwtcrsr1: TFDGUIxWaitCursor;
-    qryTeste: TFDQuery;
+    qryExecutaSQL: TFDQuery;
     FDScripts: TFDScript;
+    fdDataMove: TFDDataMove;
+    procedure qryExecutaSQLBeforeExecute(DataSet: TFDDataSet);
   private
     { Private declarations }
   public
@@ -33,8 +35,18 @@ var
 
 implementation
 
+uses
+  Vcl.Forms;
+
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+procedure TdmPrincipal.qryExecutaSQLBeforeExecute(DataSet: TFDDataSet);
+begin
+ frmPrincipal.MemoExecucao.Text := qryExecutaSQL.SQL.Text;
+ frmPrincipal.Repaint;
+ Application.ProcessMessages;
+ end;
 
 end.

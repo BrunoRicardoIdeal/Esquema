@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls;
 
 type
   TfrmPrincipal = class(TForm)
@@ -23,6 +23,8 @@ type
     lbl1: TLabel;
     btnMudaEstado: TButton;
     lblProcesso: TLabel;
+    memoExecucao: TMemo;
+    pbProcessamento: TProgressBar;
     procedure btnExecutarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnMudaEstadoClick(Sender: TObject);
@@ -131,7 +133,6 @@ begin
  edtUsuario.Text := 'HOJETEC';
  edtSenha.Text := 'systemby';
  edtCaminhoIsql.text := 'C:\Program Files\Firebird\Firebird_2_5\bin\isql.exe';
- lblProcesso.Visible := False;
 end;
 
 end.

@@ -58,7 +58,8 @@ object dmPrincipal: TdmPrincipal
     Left = 256
     Top = 216
   end
-  object qryTeste: TFDQuery
+  object qryExecutaSQL: TFDQuery
+    BeforeExecute = qryExecutaSQLBeforeExecute
     Connection = CONEXAO_NOVO
     SQL.Strings = (
       
@@ -79,6 +80,16 @@ object dmPrincipal: TdmPrincipal
     Params = <>
     Macros = <>
     Left = 392
+    Top = 232
+  end
+  object fdDataMove: TFDDataMove
+    TextDataDef.Fields = <>
+    TextFileName = 'Data.txt'
+    Mappings = <>
+    LogFileName = 'Data.log'
+    Source = qryTabelaAntiga
+    Destination = qryTabelaNova
+    Left = 96
     Top = 232
   end
 end
